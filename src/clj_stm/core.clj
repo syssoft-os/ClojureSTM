@@ -19,7 +19,7 @@
   [& args]
   ; The argument is the number of transfers to perform
   (let [num-transfers (Integer/parseInt (first args))
-        executor (Executors/newFixedThreadPool 10)  ; Create a thread pool with 10 threads
+        executor (Executors/newFixedThreadPool 8)  ; Create a thread pool
         ; Create a list of futures, each of which transfers $1 from A to B and back again
         futures (for [n (range num-transfers)]
                   [(future (transfer account-a account-b 1))
