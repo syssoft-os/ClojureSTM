@@ -19,11 +19,11 @@
   [& args]
   ; The argument is the number of transfers to perform
   (let [num-transfers (Integer/parseInt (first args))
-        executor (Executors/newFixedThreadPool 8)  ; Create a thread pool
+        executor (Executors/newFixedThreadPool 1)  ; Create a thread pool
         ; Create a list of futures, each of which transfers $1 from A to B and back again
         futures (for [n (range num-transfers)]
-                  [(future (transfer account-a account-b 1))
-                   (future (transfer account-b account-a 1))])]
+                  [(future (transfer account-a account-b 1) executor)
+                   (future (transfer account-b account-a 1) executor)])]
     ; Wait for all the futures to complete
     (doseq [f (flatten futures)] (deref f))
     ; Print the balances, the accounts should be back where they started
