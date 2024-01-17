@@ -8,10 +8,10 @@
 
 (defn transfer [x y amount]
   (dosync
+   (swap! counter inc)
    (alter x - amount)
-   (Thread/sleep 10)
-   (alter y + amount)
-   (swap! counter inc)))
+   ; (Thread/sleep 10)
+   (alter y + amount)))
 
 (import '[java.util.concurrent Executors])
 
