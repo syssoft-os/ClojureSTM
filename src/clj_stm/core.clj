@@ -4,14 +4,17 @@
 (def account-a (ref 1000))
 (def account-b (ref 1000))
 
-(def counter (atom 0))
+(def counter1 (atom 0))
+(def counter2 (atom 0))
 
 (defn transfer [x y amount]
   (dosync
-   (swap! counter inc)
+   (swap! counter1 inc)
    (alter x - amount)
    ; (Thread/sleep 10)
-   (alter y + amount)))
+   (alter y + amount))
+   (swap! counter2 inc)
+   )
 
 (defn -main
   [& args]
@@ -27,6 +30,9 @@
     (println "Account A: " @account-a)
     (println "Account B: " @account-b)
     ; Print the counter
-    (println "Counter: " @counter))
+    (println "Counter1: " @counter1)
+    (println "Counter2: " @counter2)
+    )
   ; Shut down the agents that are used by the STM
-  (shutdown-agents))
+  (shutdown-agents)
+  )
